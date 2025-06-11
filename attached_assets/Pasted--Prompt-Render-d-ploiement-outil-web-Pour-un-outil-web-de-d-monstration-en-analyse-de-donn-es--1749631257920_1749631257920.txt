@@ -1,0 +1,102 @@
+🎯 Prompt Render (déploiement outil web)
+
+Pour un outil web de démonstration en analyse de données, storytelling et transformation en recommandations business.
+🔧 Objectif du projet
+
+Créer un outil de reporting interactif type Power BI / Excel avancé, pour :
+
+    Analyser des données Supply Chain (stocks, ventes, délais, coûts, retards)
+
+    Générer des visualisations claires (histogrammes, heatmaps, dashboards filtrables)
+
+    Fournir des recommandations automatisées (écrites ou scorées) à partir des insights (goulots d’étranglement, écarts, prévisions, actions prioritaires)
+
+    Montrer ta maîtrise des outils d’analyse (Python, SQL, Excel-like) ET ton talent de storyteller visuel
+
+💻 Technologies suggérées
+
+    Frontend : Streamlit (idéal pour le rapid prototyping orienté data), ou React si tu veux styliser davantage
+
+    Backend : Python (Pandas, Plotly, Seaborn, Scikit-learn pour recommandations), SQLite ou PostgreSQL
+
+    Hosting : Render (free tier ou standard), GitHub pour versionning
+
+🧠 Fonctionnalités proposées
+
+    Uploader un fichier Excel / CSV
+
+    Nettoyage & visualisation interactive
+
+        Volumétrie stock / ventes
+
+        Taux de rupture / retard / prévision
+
+        KPI dynamiques (OTIF, taux de service, rotation stock, etc.)
+
+    Filtres dynamiques (dates, zones, familles produits, fournisseurs…)
+
+    Recommandations générées automatiquement (ex. “Ralentir l’approvisionnement produit X sur Q3”, “Optimiser fréquence de réapprovisionnement entre X et Y”)
+
+    Export du rapport final (PDF ou Excel) avec les recommandations incluses
+
+    Option bonus : storytelling visuel chronologique d’un projet réel (timeline, courbes d’évolution, actions correctrices, résultats)
+
+📦 Exemple de prompt Render (Streamlit)
+
+# Déploiement sur Render
+
+1. Créer un repo GitHub : `data-storytelling-supply`
+2. Ajouter `app.py`, `requirements.txt`, et un exemple de dataset CSV
+3. requirements.txt :
+    streamlit
+    pandas
+    matplotlib
+    seaborn
+    openpyxl
+    plotly
+    scikit-learn
+4. Fichier `app.py` :
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+from recommendations import generate_recommendations  # un script perso à créer
+
+st.title("📊 Supply Chain Data Storytelling & Reporting Tool")
+
+uploaded_file = st.file_uploader("Upload your Excel/CSV data", type=["xlsx", "csv"])
+
+if uploaded_file:
+    df = pd.read_csv(uploaded_file) if uploaded_file.name.endswith(".csv") else pd.read_excel(uploaded_file)
+    st.dataframe(df)
+
+    st.subheader("📈 Visualisation des KPI")
+    st.plotly_chart(px.bar(df, x="Produit", y="Taux de rupture"))
+
+    st.subheader("🧠 Recommandations")
+    recs = generate_recommendations(df)
+    for rec in recs:
+        st.markdown(f"- {rec}")
+
+# Déploiement Render :
+# Créer un nouveau service Web → Connecter repo GitHub → Python → Entrée : app.py
+
+📌 À personnaliser avec ton style :
+
+    Intègre un jeu de données fictif issu d’un de tes projets
+
+    Rédige les recommandations comme si tu parlais au directeur logistique
+
+    Ajoute un bouton “Voir le storytelling” qui déroule les étapes du projet + les impacts mesurés
+
+    Bonus : crée un onglet “Ma méthode d’analyse” où tu expliques ta logique d’analyse métier
+
+✨ Ce que tu démontres :
+
+    Capacité à analyser les flux et anomalies
+
+    Compétence en dataviz moderne (UX)
+
+    Sens stratégique : tu proposes des actions
+
+    Maîtrise technique des outils pros (Excel, BI, SQL/Python)
