@@ -115,7 +115,39 @@ TRANSLATIONS = {
         
         # Language selector
         'select_language': 'Sélectionnez la langue',
-        'language': 'Langue'
+        'language': 'Langue',
+        
+        # Welcome messages
+        'welcome_title': 'Bienvenue dans l\'Outil d\'Analyse de Chaîne d\'Approvisionnement',
+        'welcome_description': 'Cet outil vous aide à analyser les données de chaîne d\'approvisionnement et à générer des recommandations business actionnables.',
+        'getting_started': '🚀 Pour Commencer',
+        'step_1': '**Téléchargez vos données** en utilisant le téléchargeur de fichiers dans la barre latérale',
+        'step_2': '**Explorez vos données** grâce aux visualisations interactives',
+        'step_3': '**Analysez les KPI** incluant niveaux de service, taux OTIF et délais',
+        'step_4': '**Obtenez des recommandations** basées sur les performances de votre chaîne d\'approvisionnement',
+        'step_5': '**Exportez des rapports** pour la communication avec les parties prenantes',
+        'supported_data_types': '📊 Types de Données Supportés',
+        'excel_files': '**Fichiers Excel** (.xlsx, .xls)',
+        'csv_files': '**Fichiers CSV** (.csv)',
+        'expected_columns': '🔍 Colonnes de Données Attendues',
+        'expected_description': 'Pour de meilleurs résultats, vos données devraient inclure des colonnes liées à :',
+        'dates_info': 'Dates (dates de commande, dates de livraison, etc.)',
+        'products_info': 'Produits ou SKU',
+        'quantities_info': 'Quantités (commandées, livrées, en stock)',
+        'lead_times_info': 'Délais ou retards de livraison',
+        'suppliers_info': 'Fournisseurs ou vendeurs',
+        'costs_info': 'Coûts ou valeurs',
+        'upload_prompt': 'Téléchargez votre fichier pour commencer ! 👆',
+        
+        # Report generation
+        'report_title': 'RAPPORT D\'ANALYSE DE CHAÎNE D\'APPROVISIONNEMENT',
+        'generated_on': 'Généré le :',
+        'kpi_section': '=== INDICATEURS CLÉS DE PERFORMANCE ===',
+        'recommendations_section': '=== RECOMMANDATIONS BUSINESS ===',
+        'priority_label': 'Priorité :',
+        'category_label': 'Catégorie :',
+        'no_recommendations': 'Aucune recommandation générée.',
+        'report_footer': '--- Fin du Rapport ---'
     },
     
     'en': {
@@ -229,7 +261,39 @@ TRANSLATIONS = {
         
         # Language selector
         'select_language': 'Select Language',
-        'language': 'Language'
+        'language': 'Language',
+        
+        # Welcome messages
+        'welcome_title': 'Welcome to Supply Chain Analytics Tool',
+        'welcome_description': 'This tool helps you analyze supply chain data and generate actionable business recommendations.',
+        'getting_started': '🚀 Getting Started',
+        'step_1': '**Upload your data** using the file uploader in the sidebar',
+        'step_2': '**Explore your data** through interactive visualizations',
+        'step_3': '**Analyze KPIs** including service levels, OTIF rates, and lead times',
+        'step_4': '**Get recommendations** based on your supply chain performance',
+        'step_5': '**Export reports** for stakeholder communication',
+        'supported_data_types': '📊 Supported Data Types',
+        'excel_files': '**Excel files** (.xlsx, .xls)',
+        'csv_files': '**CSV files** (.csv)',
+        'expected_columns': '🔍 Expected Data Columns',
+        'expected_description': 'For best results, your data should include columns related to:',
+        'dates_info': 'Dates (order dates, delivery dates, etc.)',
+        'products_info': 'Products or SKUs',
+        'quantities_info': 'Quantities (ordered, delivered, in stock)',
+        'lead_times_info': 'Lead times or delivery delays',
+        'suppliers_info': 'Suppliers or vendors',
+        'costs_info': 'Costs or values',
+        'upload_prompt': 'Upload your file to get started! 👆',
+        
+        # Report generation
+        'report_title': 'SUPPLY CHAIN ANALYSIS REPORT',
+        'generated_on': 'Generated on:',
+        'kpi_section': '=== KEY PERFORMANCE INDICATORS ===',
+        'recommendations_section': '=== BUSINESS RECOMMENDATIONS ===',
+        'priority_label': 'Priority:',
+        'category_label': 'Category:',
+        'no_recommendations': 'No recommendations generated.',
+        'report_footer': '--- End of Report ---'
     },
     
     'es': {
@@ -343,7 +407,39 @@ TRANSLATIONS = {
         
         # Language selector
         'select_language': 'Seleccionar Idioma',
-        'language': 'Idioma'
+        'language': 'Idioma',
+        
+        # Welcome messages
+        'welcome_title': 'Bienvenido a la Herramienta de Análisis de Cadena de Suministro',
+        'welcome_description': 'Esta herramienta le ayuda a analizar datos de cadena de suministro y generar recomendaciones empresariales accionables.',
+        'getting_started': '🚀 Comenzando',
+        'step_1': '**Suba sus datos** usando el cargador de archivos en la barra lateral',
+        'step_2': '**Explore sus datos** a través de visualizaciones interactivas',
+        'step_3': '**Analice KPIs** incluyendo niveles de servicio, tasas OTIF y tiempos de entrega',
+        'step_4': '**Obtenga recomendaciones** basadas en el rendimiento de su cadena de suministro',
+        'step_5': '**Exporte reportes** para comunicación con stakeholders',
+        'supported_data_types': '📊 Tipos de Datos Soportados',
+        'excel_files': '**Archivos Excel** (.xlsx, .xls)',
+        'csv_files': '**Archivos CSV** (.csv)',
+        'expected_columns': '🔍 Columnas de Datos Esperadas',
+        'expected_description': 'Para mejores resultados, sus datos deben incluir columnas relacionadas con:',
+        'dates_info': 'Fechas (fechas de pedido, fechas de entrega, etc.)',
+        'products_info': 'Productos o SKUs',
+        'quantities_info': 'Cantidades (pedidas, entregadas, en stock)',
+        'lead_times_info': 'Tiempos de entrega o retrasos',
+        'suppliers_info': 'Proveedores o vendedores',
+        'costs_info': 'Costos o valores',
+        'upload_prompt': '¡Suba su archivo para comenzar! 👆',
+        
+        # Report generation
+        'report_title': 'REPORTE DE ANÁLISIS DE CADENA DE SUMINISTRO',
+        'generated_on': 'Generado el:',
+        'kpi_section': '=== INDICADORES CLAVE DE RENDIMIENTO ===',
+        'recommendations_section': '=== RECOMENDACIONES EMPRESARIALES ===',
+        'priority_label': 'Prioridad:',
+        'category_label': 'Categoría:',
+        'no_recommendations': 'No se generaron recomendaciones.',
+        'report_footer': '--- Fin del Reporte ---'
     },
     
     'ru': {
@@ -457,7 +553,39 @@ TRANSLATIONS = {
         
         # Language selector
         'select_language': 'Выберите язык',
-        'language': 'Язык'
+        'language': 'Язык',
+        
+        # Welcome messages
+        'welcome_title': 'Добро пожаловать в Инструмент Аналитики Цепи Поставок',
+        'welcome_description': 'Этот инструмент помогает анализировать данные цепи поставок и генерировать практические бизнес-рекомендации.',
+        'getting_started': '🚀 Начало работы',
+        'step_1': '**Загрузите данные** используя загрузчик файлов на боковой панели',
+        'step_2': '**Исследуйте данные** через интерактивные визуализации',
+        'step_3': '**Анализируйте KPI** включая уровни сервиса, показатели OTIF и время выполнения',
+        'step_4': '**Получайте рекомендации** на основе производительности вашей цепи поставок',
+        'step_5': '**Экспортируйте отчеты** для коммуникации с заинтересованными сторонами',
+        'supported_data_types': '📊 Поддерживаемые Типы Данных',
+        'excel_files': '**Файлы Excel** (.xlsx, .xls)',
+        'csv_files': '**Файлы CSV** (.csv)',
+        'expected_columns': '🔍 Ожидаемые Столбцы Данных',
+        'expected_description': 'Для лучших результатов ваши данные должны включать столбцы, связанные с:',
+        'dates_info': 'Даты (даты заказов, даты доставки и т.д.)',
+        'products_info': 'Продукты или SKU',
+        'quantities_info': 'Количества (заказанные, доставленные, в наличии)',
+        'lead_times_info': 'Время выполнения или задержки доставки',
+        'suppliers_info': 'Поставщики или продавцы',
+        'costs_info': 'Затраты или стоимости',
+        'upload_prompt': 'Загрузите файл, чтобы начать! 👆',
+        
+        # Report generation
+        'report_title': 'ОТЧЕТ ПО АНАЛИЗУ ЦЕПИ ПОСТАВОК',
+        'generated_on': 'Создано:',
+        'kpi_section': '=== КЛЮЧЕВЫЕ ПОКАЗАТЕЛИ ЭФФЕКТИВНОСТИ ===',
+        'recommendations_section': '=== БИЗНЕС-РЕКОМЕНДАЦИИ ===',
+        'priority_label': 'Приоритет:',
+        'category_label': 'Категория:',
+        'no_recommendations': 'Рекомендации не сгенерированы.',
+        'report_footer': '--- Конец Отчета ---'
     }
 }
 

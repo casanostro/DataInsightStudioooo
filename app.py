@@ -354,7 +354,7 @@ def main():
                 # Export recommendations
                 st.subheader(get_text('export_recommendations', lang))
                 if st.button(get_text('generate_report', lang)):
-                    report_content = generate_report(recommendations, st.session_state.kpis)
+                    report_content = generate_report(recommendations, st.session_state.kpis, lang)
                     st.download_button(
                         label=get_text('download_report', lang),
                         data=report_content,
@@ -410,41 +410,41 @@ def main():
     
     else:
         # Welcome message when no data is uploaded
-        st.markdown("""
-        ## Welcome to Supply Chain Analytics Tool
+        st.markdown(f"""
+        ## {get_text('welcome_title', lang)}
         
-        This tool helps you analyze supply chain data and generate actionable business recommendations.
+        {get_text('welcome_description', lang)}
         
-        ### 🚀 Getting Started
-        1. **Upload your data** using the file uploader in the sidebar
-        2. **Explore your data** through interactive visualizations
-        3. **Analyze KPIs** including service levels, OTIF rates, and lead times
-        4. **Get recommendations** based on your supply chain performance
-        5. **Export reports** for stakeholder communication
+        ### {get_text('getting_started', lang)}
+        1. {get_text('step_1', lang)}
+        2. {get_text('step_2', lang)}
+        3. {get_text('step_3', lang)}
+        4. {get_text('step_4', lang)}
+        5. {get_text('step_5', lang)}
         
-        ### 📊 Supported Data Types
-        - **Excel files** (.xlsx, .xls)
-        - **CSV files** (.csv)
+        ### {get_text('supported_data_types', lang)}
+        - {get_text('excel_files', lang)}
+        - {get_text('csv_files', lang)}
         
-        ### 🔍 Expected Data Columns
-        For best results, your data should include columns related to:
-        - Dates (order dates, delivery dates, etc.)
-        - Products or SKUs
-        - Quantities (ordered, delivered, in stock)
-        - Lead times or delivery delays
-        - Suppliers or vendors
-        - Costs or values
+        ### {get_text('expected_columns', lang)}
+        {get_text('expected_description', lang)}
+        - {get_text('dates_info', lang)}
+        - {get_text('products_info', lang)}
+        - {get_text('quantities_info', lang)}
+        - {get_text('lead_times_info', lang)}
+        - {get_text('suppliers_info', lang)}
+        - {get_text('costs_info', lang)}
         
-        Upload your file to get started! 👆
+        {get_text('upload_prompt', lang)}
         """)
 
-def generate_report(recommendations, kpis):
+def generate_report(recommendations, kpis, language='en'):
     """Generate a text report of recommendations and KPIs"""
     report = f"""
-SUPPLY CHAIN ANALYSIS REPORT
-Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+{get_text('report_title', language)}
+{get_text('generated_on', language)} {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
-=== KEY PERFORMANCE INDICATORS ===
+{get_text('kpi_section', language)}
 """
     
     if kpis:
@@ -452,16 +452,20 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             if not kpi_name.endswith('_trend'):
                 report += f"{kpi_name.replace('_', ' ').title()}: {kpi_value:.2f}\n"
     
-    report += "\n=== BUSINESS RECOMMENDATIONS ===\n"
+    report += f"\n{get_text('recommendations_section', language)}\n"
     
-    for i, rec in enumerate(recommendations, 1):
-        report += f"""
-{i}. {rec['title']} (Priority: {rec.get('priority', 'Medium')})
+    if recommendations:
+        for i, rec in enumerate(recommendations, 1):
+            report += f"""
+{i}. {rec['title']} ({get_text('priority_label', language)} {rec.get('priority', 'Medium')})
    Description: {rec['description']}
-   Impact: {rec['impact']}
-   Effort: {rec['effort']}
+   {get_text('impact', language)} {rec['impact']}
+   {get_text('effort', language)} {rec['effort']}
 """
+    else:
+        report += f"{get_text('no_recommendations', language)}\n"
     
+    report += f"\n{get_text('report_footer', language)}"
     return report
 
 if __name__ == "__main__":
