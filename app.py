@@ -8,6 +8,7 @@ from data_processor import DataProcessor
 from kpi_calculator import KPICalculator
 from recommendation_engine import RecommendationEngine
 from visualizations import SupplyChainVisualizations
+from translations import get_text, get_language_options
 
 # Page configuration
 st.set_page_config(
@@ -18,8 +19,31 @@ st.set_page_config(
 )
 
 def main():
-    st.title("📊 Supply Chain Data Storytelling & Reporting Tool")
-    st.markdown("Transform your supply chain data into actionable business recommendations")
+    # Initialize session state for language
+    if 'language' not in st.session_state:
+        st.session_state.language = 'en'
+    
+    # Language selector in sidebar
+    with st.sidebar:
+        st.markdown("---")
+        language_options = get_language_options()
+        selected_language = st.selectbox(
+            get_text('select_language', st.session_state.language),
+            options=list(language_options.keys()),
+            format_func=lambda x: language_options[x],
+            index=list(language_options.keys()).index(st.session_state.language),
+            key="language_selector"
+        )
+        
+        if selected_language != st.session_state.language:
+            st.session_state.language = selected_language
+            st.rerun()
+    
+    # Use translated texts
+    lang = st.session_state.language
+    
+    st.title(get_text('main_title', lang))
+    st.markdown(get_text('main_subtitle', lang))
     
     # Initialize session state
     if 'processed_data' not in st.session_state:
@@ -31,11 +55,11 @@ def main():
 
     # Sidebar for file upload and filters
     with st.sidebar:
-        st.header("📁 Data Upload")
+        st.header(get_text('data_upload', lang))
         uploaded_file = st.file_uploader(
-            "Upload your Excel/CSV data",
+            get_text('upload_file', lang),
             type=["xlsx", "csv", "xls"],
-            help="Upload supply chain data including stocks, sales, delays, costs, etc."
+            help=get_text('upload_help', lang)
         )
         
         if uploaded_file is not None:
@@ -43,7 +67,7 @@ def main():
             processor = DataProcessor()
             
             try:
-                with st.spinner("Processing uploaded data..."):
+                with st.spinner(get_text('processing_data', lang)):
                     df = processor.load_data(uploaded_file)
                     st.session_state.processed_data = df
                     
@@ -55,19 +79,19 @@ def main():
                     rec_engine = RecommendationEngine(df, st.session_state.kpis)
                     st.session_state.recommendations = rec_engine.generate_recommendations()
                 
-                st.success(f"✅ Data processed successfully! {len(df)} records loaded.")
+                st.success(f"{get_text('data_processed', lang)} {len(df)} {get_text('records_loaded', lang)}")
                 
                 # Display basic data info
-                with st.expander("📋 Data Overview"):
-                    st.write(f"**Rows:** {len(df)}")
-                    st.write(f"**Columns:** {len(df.columns)}")
-                    st.write("**Column Names:**")
+                with st.expander(get_text('data_overview', lang)):
+                    st.write(f"**{get_text('rows', lang)}:** {len(df)}")
+                    st.write(f"**{get_text('columns', lang)}:** {len(df.columns)}")
+                    st.write(f"**{get_text('column_names', lang)}:**")
                     for col in df.columns:
                         st.write(f"- {col}")
                 
             except Exception as e:
-                st.error(f"❌ Error processing file: {str(e)}")
-                st.info("Please ensure your file contains supply chain data with appropriate columns.")
+                st.error(f"{get_text('error_processing', lang)} {str(e)}")
+                st.info(get_text('ensure_supply_chain', lang))
                 return
 
     # Main content area
@@ -76,17 +100,17 @@ def main():
         
         # Add filters in sidebar
         with st.sidebar:
-            st.header("🔍 Filters")
+            st.header(get_text('filters', lang))
             
             # Date range filter if date columns exist
             date_columns = df.select_dtypes(include=['datetime64']).columns.tolist()
             if date_columns:
-                date_col = st.selectbox("Select Date Column", date_columns)
+                date_col = st.selectbox(get_text('select_date_column', lang), date_columns)
                 min_date = df[date_col].min().date()
                 max_date = df[date_col].max().date()
                 
                 date_range = st.date_input(
-                    "Date Range",
+                    get_text('date_range', lang),
                     value=(min_date, max_date),
                     min_value=min_date,
                     max_value=max_date
@@ -102,7 +126,7 @@ def main():
                 unique_values = df[col].dropna().unique()
                 if len(unique_values) > 1 and len(unique_values) <= 50:  # Only show if reasonable number of options
                     selected_values = st.multiselect(
-                        f"Filter by {col}",
+                        f"{get_text('filter_by', lang)} {col}",
                         options=unique_values,
                         default=unique_values
                     )
@@ -111,15 +135,15 @@ def main():
         
         # Create tabs for different views
         tab1, tab2, tab3, tab4, tab5 = st.tabs([
-            "📊 Dashboard", 
-            "📈 Visualizations", 
-            "🔍 KPI Analysis", 
-            "🧠 Recommendations", 
-            "📋 Raw Data"
+            get_text('dashboard', lang), 
+            get_text('visualizations', lang), 
+            get_text('kpi_analysis', lang), 
+            get_text('recommendations', lang), 
+            get_text('raw_data', lang)
         ])
         
         with tab1:
-            st.header("Supply Chain Dashboard")
+            st.header(get_text('supply_chain_dashboard', lang))
             
             # KPI cards
             if st.session_state.kpis:
@@ -129,109 +153,110 @@ def main():
                 
                 with col1:
                     st.metric(
-                        "Service Level", 
+                        get_text('service_level', lang), 
                         f"{kpis.get('service_level', 0):.1f}%",
                         delta=f"{kpis.get('service_level_trend', 0):.1f}%"
                     )
                 
                 with col2:
                     st.metric(
-                        "Stock Turnover", 
+                        get_text('stock_turnover', lang), 
                         f"{kpis.get('stock_turnover', 0):.1f}x",
                         delta=f"{kpis.get('turnover_trend', 0):.1f}%"
                     )
                 
                 with col3:
                     st.metric(
-                        "OTIF Rate", 
+                        get_text('otif_rate', lang), 
                         f"{kpis.get('otif_rate', 0):.1f}%",
                         delta=f"{kpis.get('otif_trend', 0):.1f}%"
                     )
                 
                 with col4:
                     st.metric(
-                        "Avg Lead Time", 
-                        f"{kpis.get('avg_lead_time', 0):.1f} days",
+                        get_text('avg_lead_time', lang), 
+                        f"{kpis.get('avg_lead_time', 0):.1f} {get_text('days', lang)}",
                         delta=f"{kpis.get('lead_time_trend', 0):.1f}%"
                     )
             
             # Summary statistics
-            st.subheader("📋 Data Summary")
+            st.subheader(get_text('data_summary', lang))
             col1, col2 = st.columns(2)
             
             with col1:
-                st.write("**Numeric Summary:**")
+                st.write(f"**{get_text('numeric_summary', lang)}**")
                 numeric_cols = df.select_dtypes(include=[np.number]).columns
                 if len(numeric_cols) > 0:
                     st.dataframe(df[numeric_cols].describe())
                 else:
-                    st.info("No numeric columns found for summary statistics.")
+                    st.info(get_text('no_numeric_columns', lang))
             
             with col2:
-                st.write("**Data Quality:**")
+                st.write(f"**{get_text('data_quality', lang)}**")
                 quality_metrics = {
-                    'Total Rows': len(df),
-                    'Total Columns': len(df.columns),
-                    'Missing Values': df.isnull().sum().sum(),
-                    'Duplicate Rows': df.duplicated().sum()
+                    get_text('total_rows', lang): len(df),
+                    get_text('total_columns', lang): len(df.columns),
+                    get_text('missing_values', lang): df.isnull().sum().sum(),
+                    get_text('duplicate_rows', lang): df.duplicated().sum()
                 }
                 quality_df = pd.DataFrame(list(quality_metrics.items()), 
-                                        columns=['Metric', 'Value'])
+                                        columns=[get_text('metric', lang), get_text('value', lang)])
                 st.dataframe(quality_df, hide_index=True)
         
         with tab2:
-            st.header("📈 Interactive Visualizations")
+            st.header(get_text('interactive_viz', lang))
             
             viz = SupplyChainVisualizations(df)
             
             # Chart selection
             chart_type = st.selectbox(
-                "Select Visualization Type",
-                ["Distribution Analysis", "Correlation Matrix", "Time Series", "Category Analysis"]
+                get_text('select_viz_type', lang),
+                [get_text('distribution_analysis', lang), get_text('correlation_matrix', lang), 
+                 get_text('time_series', lang), get_text('category_analysis', lang)]
             )
             
-            if chart_type == "Distribution Analysis":
+            if chart_type == get_text('distribution_analysis', lang):
                 numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
                 if numeric_cols:
-                    selected_col = st.selectbox("Select Column", numeric_cols)
+                    selected_col = st.selectbox(get_text('select_column', lang), numeric_cols)
                     fig = viz.create_distribution_plot(selected_col)
                     if fig:
                         st.plotly_chart(fig, use_container_width=True)
                 else:
-                    st.warning("No numeric columns available for distribution analysis.")
+                    st.warning(get_text('no_numeric_for_distribution', lang))
             
-            elif chart_type == "Correlation Matrix":
+            elif chart_type == get_text('correlation_matrix', lang):
                 fig = viz.create_correlation_matrix()
                 if fig:
                     st.plotly_chart(fig, use_container_width=True)
                 else:
-                    st.warning("Not enough numeric columns for correlation analysis.")
+                    st.warning(get_text('not_enough_numeric', lang))
             
-            elif chart_type == "Time Series":
+            elif chart_type == get_text('time_series', lang):
                 date_cols = df.select_dtypes(include=['datetime64']).columns.tolist()
                 numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
                 
                 if date_cols and numeric_cols:
-                    date_col = st.selectbox("Select Date Column", date_cols)
-                    value_col = st.selectbox("Select Value Column", numeric_cols)
+                    date_col = st.selectbox(get_text('select_date_column_viz', lang), date_cols)
+                    value_col = st.selectbox(get_text('select_value_column', lang), numeric_cols)
                     fig = viz.create_time_series(date_col, value_col)
                     if fig:
                         st.plotly_chart(fig, use_container_width=True)
                 else:
-                    st.warning("Date and numeric columns required for time series analysis.")
+                    st.warning(get_text('date_numeric_required', lang))
             
-            elif chart_type == "Category Analysis":
+            elif chart_type == get_text('category_analysis', lang):
                 categorical_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
                 numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
                 
                 if categorical_cols and numeric_cols:
-                    cat_col = st.selectbox("Select Category Column", categorical_cols)
-                    val_col = st.selectbox("Select Value Column", numeric_cols)
+                    cat_col = st.selectbox(get_text('select_category_column', lang), categorical_cols)
+                    val_col = st.selectbox(get_text('select_value_column', lang), numeric_cols)
                     fig = viz.create_category_analysis(cat_col, val_col)
                     if fig:
                         st.plotly_chart(fig, use_container_width=True)
                 else:
-                    st.warning("Category and numeric columns required for category analysis.")
+                    st.warning(get_text('category_numeric_required', lang))
         
         with tab3:
             st.header("🔍 KPI Analysis")
