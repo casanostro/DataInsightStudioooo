@@ -259,12 +259,12 @@ def main():
                     st.warning(get_text('category_numeric_required', lang))
         
         with tab3:
-            st.header("🔍 KPI Analysis")
+            st.header(get_text('kpi_analysis_title', lang))
             
             if st.session_state.kpis:
                 kpis = st.session_state.kpis
                 
-                st.subheader("Key Performance Indicators")
+                st.subheader(get_text('key_performance_indicators', lang))
                 
                 # Create KPI summary table
                 kpi_data = []
@@ -275,17 +275,17 @@ def main():
                         
                         # Determine status based on KPI type and value
                         if 'rate' in kpi_name.lower() or 'level' in kpi_name.lower():
-                            status = "🟢 Good" if kpi_value >= 90 else "🟡 Average" if kpi_value >= 75 else "🔴 Poor"
+                            status = get_text('good', lang) if kpi_value >= 90 else get_text('average', lang) if kpi_value >= 75 else get_text('poor', lang)
                         elif 'time' in kpi_name.lower():
-                            status = "🟢 Good" if kpi_value <= 7 else "🟡 Average" if kpi_value <= 14 else "🔴 Poor"
+                            status = get_text('good', lang) if kpi_value <= 7 else get_text('average', lang) if kpi_value <= 14 else get_text('poor', lang)
                         else:
-                            status = "📊 Monitor"
+                            status = get_text('monitor', lang)
                         
                         kpi_data.append({
-                            'KPI': kpi_name.replace('_', ' ').title(),
-                            'Value': f"{kpi_value:.2f}",
-                            'Trend': f"{trend_value:+.1f}%",
-                            'Status': status
+                            get_text('kpi', lang): kpi_name.replace('_', ' ').title(),
+                            get_text('value', lang): f"{kpi_value:.2f}",
+                            get_text('trend', lang): f"{trend_value:+.1f}%",
+                            get_text('status', lang): status
                         })
                 
                 if kpi_data:
@@ -293,89 +293,89 @@ def main():
                     st.dataframe(kpi_df, hide_index=True, use_container_width=True)
                 
                 # Additional KPI insights
-                st.subheader("📊 KPI Insights")
+                st.subheader(get_text('kpi_insights', lang))
                 
                 # Performance alerts
                 alerts = []
                 if kpis.get('service_level', 100) < 95:
-                    alerts.append("⚠️ Service level below target (95%)")
+                    alerts.append(get_text('service_level_below', lang))
                 if kpis.get('otif_rate', 100) < 90:
-                    alerts.append("⚠️ OTIF rate needs improvement")
+                    alerts.append(get_text('otif_needs_improvement', lang))
                 if kpis.get('avg_lead_time', 0) > 14:
-                    alerts.append("⚠️ Lead times are longer than ideal (>14 days)")
+                    alerts.append(get_text('lead_times_long', lang))
                 
                 if alerts:
-                    st.warning("**Performance Alerts:**")
+                    st.warning(get_text('performance_alerts', lang))
                     for alert in alerts:
                         st.write(alert)
                 else:
-                    st.success("✅ All key metrics are within acceptable ranges")
+                    st.success(get_text('metrics_acceptable', lang))
             
             else:
-                st.info("KPI analysis will appear here once data is processed.")
+                st.info(get_text('kpi_after_processing', lang))
         
         with tab4:
-            st.header("🧠 Business Recommendations")
+            st.header(get_text('business_recommendations', lang))
             
             if st.session_state.recommendations:
                 recommendations = st.session_state.recommendations
                 
                 # Priority recommendations
-                st.subheader("🔥 Priority Actions")
+                st.subheader(get_text('priority_actions', lang))
                 priority_recs = [r for r in recommendations if r.get('priority') == 'High']
                 for i, rec in enumerate(priority_recs, 1):
                     with st.container():
                         st.markdown(f"**{i}. {rec['title']}**")
                         st.write(rec['description'])
-                        st.write(f"**Impact:** {rec['impact']}")
-                        st.write(f"**Effort:** {rec['effort']}")
+                        st.write(f"{get_text('impact', lang)} {rec['impact']}")
+                        st.write(f"{get_text('effort', lang)} {rec['effort']}")
                         st.divider()
                 
                 # Medium priority recommendations
                 if any(r.get('priority') == 'Medium' for r in recommendations):
-                    st.subheader("📋 Medium Priority Actions")
+                    st.subheader(get_text('medium_priority_actions', lang))
                     medium_recs = [r for r in recommendations if r.get('priority') == 'Medium']
                     for i, rec in enumerate(medium_recs, 1):
                         with st.expander(f"{i}. {rec['title']}"):
                             st.write(rec['description'])
-                            st.write(f"**Impact:** {rec['impact']}")
-                            st.write(f"**Effort:** {rec['effort']}")
+                            st.write(f"{get_text('impact', lang)} {rec['impact']}")
+                            st.write(f"{get_text('effort', lang)} {rec['effort']}")
                 
                 # Low priority recommendations
                 if any(r.get('priority') == 'Low' for r in recommendations):
-                    st.subheader("💡 Future Considerations")
+                    st.subheader(get_text('future_considerations', lang))
                     low_recs = [r for r in recommendations if r.get('priority') == 'Low']
                     for i, rec in enumerate(low_recs, 1):
                         with st.expander(f"{i}. {rec['title']}"):
                             st.write(rec['description'])
-                            st.write(f"**Impact:** {rec['impact']}")
-                            st.write(f"**Effort:** {rec['effort']}")
+                            st.write(f"{get_text('impact', lang)} {rec['impact']}")
+                            st.write(f"{get_text('effort', lang)} {rec['effort']}")
                 
                 # Export recommendations
-                st.subheader("📤 Export Recommendations")
-                if st.button("Generate Report"):
+                st.subheader(get_text('export_recommendations', lang))
+                if st.button(get_text('generate_report', lang)):
                     report_content = generate_report(recommendations, st.session_state.kpis)
                     st.download_button(
-                        label="Download Report",
+                        label=get_text('download_report', lang),
                         data=report_content,
                         file_name=f"supply_chain_recommendations_{datetime.now().strftime('%Y%m%d')}.txt",
                         mime="text/plain"
                     )
             
             else:
-                st.info("Business recommendations will appear here once data is analyzed.")
+                st.info(get_text('recommendations_after_analysis', lang))
         
         with tab5:
-            st.header("📋 Raw Data")
+            st.header(get_text('raw_data_title', lang))
             
-            st.subheader("Filtered Dataset")
-            st.write(f"Showing {len(df)} rows after applying filters")
+            st.subheader(get_text('filtered_dataset', lang))
+            st.write(f"{get_text('showing_rows', lang)} {len(df)} {get_text('rows_after_filters', lang)}")
             
             # Show data with pagination
-            page_size = st.selectbox("Rows per page", [10, 25, 50, 100], index=1)
+            page_size = st.selectbox(get_text('rows_per_page', lang), [10, 25, 50, 100], index=1)
             
             total_pages = (len(df) - 1) // page_size + 1
-            page = st.number_input("Page", min_value=1, max_value=total_pages, value=1)
+            page = st.number_input(get_text('page', lang), min_value=1, max_value=total_pages, value=1)
             
             start_idx = (page - 1) * page_size
             end_idx = start_idx + page_size
@@ -383,13 +383,13 @@ def main():
             st.dataframe(df.iloc[start_idx:end_idx], use_container_width=True)
             
             # Export data
-            st.subheader("📤 Export Data")
+            st.subheader(get_text('export_data', lang))
             col1, col2 = st.columns(2)
             
             with col1:
                 csv = df.to_csv(index=False)
                 st.download_button(
-                    label="Download as CSV",
+                    label=get_text('download_csv', lang),
                     data=csv,
                     file_name=f"filtered_data_{datetime.now().strftime('%Y%m%d')}.csv",
                     mime="text/csv"
@@ -402,7 +402,7 @@ def main():
                     df.to_excel(writer, sheet_name='Data', index=False)
                 
                 st.download_button(
-                    label="Download as Excel",
+                    label=get_text('download_excel', lang),
                     data=buffer.getvalue(),
                     file_name=f"filtered_data_{datetime.now().strftime('%Y%m%d')}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
